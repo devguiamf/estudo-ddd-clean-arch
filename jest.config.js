@@ -17,10 +17,7 @@ module.exports = {
             decoratorMetadata: true,
           },
           target: "es2021",
-          baseUrl: ".",
-          paths: {
-            "@/*": ["src/*"],
-          },
+          keepClassNames: true,
         },
         module: {
           type: "commonjs",

@@ -1,37 +1,40 @@
-import { IsEmail, IsNotEmpty, IsString, validate, Validator, ValidatorConstraintInterface } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, validateSync } from "class-validator";
 import { ValidationEntity } from "../../../common/validation/validation-entity";
 import { UserProps } from "../entity/user.entity";
-import { plainToInstance } from "class-transformer";
 
 export class UserValidate extends ValidationEntity {
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: "name não pode ser vazio" })
+  @IsString({ message: "name deve ser uma string", always: false })
   name: string;
 
-  @IsNotEmpty()
-  @IsEmail()
+  @IsNotEmpty({ message: "email não pode ser vazio" })
+  @IsEmail({}, { message: "email deve ser um email válido", always: false })
   email: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: "password não pode ser vazio" })
+  @IsString({ message: "password deve ser uma string", always: false })
   password: string;
 
-  constructor(private readonly props: Readonly<Required<UserProps>>) {
+  constructor(private readonly props: UserProps) {
     super();
     this.name = props.name;
     this.email = props.email;
     this.password = props.password;
   }
 
-  async validate(): Promise<{ field: string; messages: string[]; }[]> {
-    const instance = plainToInstance(UserValidate, this.props);
-    const errors = await validate(instance);
+  validate(): { field: string; messages: string[] }[] {
+    this.clearValidateErrors();
+
+    const errors = validateSync(this);
+
     if (errors.length > 0) {
-      return errors.map((error) => ({
-        field: error.property,
-        messages: Object.values(error.constraints || {}),
-      }));
+      errors.forEach((error) => {
+        this.addValidateError(
+          error.property,
+          Object.values(error.constraints || {})
+        );
+      });
     }
-    return [];
+    return this.validateErrors;
   }
 }

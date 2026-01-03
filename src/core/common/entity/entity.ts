@@ -5,7 +5,7 @@ export type ValidateErrorsMessage = { field: string, messages: string[] }[];
 
 class DefaultValidationEntity extends ValidationEntity {
     
-    async validate(): Promise<{ field: string; messages: string[]; }[]> {
+    validate(): ValidateErrorsMessage {
         return [
             {
                 field: "entity",
@@ -33,8 +33,8 @@ export abstract class Entity<TProps> {
         return this.validation.validateErrors;
     }
 
-    async validate(): Promise<void> {
-        this.validation.validate();
+    validate(): ValidateErrorsMessage {
+        return this.validation.validate();
     }
 
     toJSON(): TProps {

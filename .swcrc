@@ -1,22 +1,21 @@
 {
-    "jsc": {
-      "parser": {
-        "syntax": "typescript",
-        "tsx": false,
-        "decorators": true,
-        "dynamicImport": true
-      },
-      "target": "es2021",
-      "transform": {
-        "decoratorMetadata": true
-      },
-      "keepClassNames": true
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": true
     },
-    "module": {
-      "type": "commonjs"
+    "target": "es2021",
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
     },
-    "sourceMaps": true,
-    "outDir": "dist",
-    "exclude": ["node_modules"]
-  }
+    "keepClassNames": true
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "sourceMaps": true
+}
   

@@ -8,8 +8,8 @@ export type UserProps = {
 };
 
 export class UserEntity extends Entity<UserProps> {
-  protected props: Readonly<Required<UserProps>>;
-  protected validation: UserValidate;
+  protected readonly props: UserProps;
+  protected readonly validation: UserValidate;
 
   constructor(id: string, props: UserProps) {
     super(id, props);

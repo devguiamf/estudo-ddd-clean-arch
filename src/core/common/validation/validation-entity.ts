@@ -5,13 +5,13 @@ export abstract class ValidationEntity {
         return this._validateErrors;
     }
 
-    addValidateError(field: string, message: string): void {
-        this._validateErrors.push({ field, messages: [message] });
+    addValidateError(field: string, messages: string[]): void {
+        this._validateErrors.push({ field, messages: [...messages] });
     }
 
     clearValidateErrors(): void {
         this._validateErrors = [];
     }
 
-    abstract validate(): Promise<{ field: string, messages: string[] }[]>;
+    abstract validate(): { field: string, messages: string[] }[];
 }
